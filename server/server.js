@@ -4,7 +4,7 @@ const db = require("./utils/_db");
 const app = express();
 const PORT = process.env.PORT || 9000;
 const authRouter = require("./routes/AuthRoute");
-const cardRouter = require("./routes/cardRouter");
+const cardRouter = require("./routes/storyRouter");
 app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/stories", cardRouter);

@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/UserModel");
 const Joi = require("joi");
+const { handleErrorResponse } = require("../utils/handleError");
 const userValidation = Joi.object({
   username: Joi.string().required().label("Username"),
   password: Joi.string().required().label("Password"),
@@ -27,10 +28,7 @@ authRouter.post("/login", async (req, res) => {
       token: token,
     });
   } catch (error) {
-    if (error.details) {
-      return res.status(400).send(error.details);
-    }
-    return res.status(500).send("Internal Server Error");
+    handleErrorResponse(res, error);
   }
 });
 
@@ -60,12 +58,7 @@ authRouter.post("/register", async (req, res) => {
       token: token,
     });
   } catch (error) {
-    if (error.details) {
-      return res.status(400).send(error.details);
-    } else {
-      console.log(error);
-      return res.status(500).send("Internal Server Error");
-    }
+    handleErrorResponse(res, error);
   }
 });
 

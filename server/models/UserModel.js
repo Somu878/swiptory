@@ -1,4 +1,3 @@
-const { required } = require("joi");
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
@@ -10,6 +9,14 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, "Password is a required field"],
+  },
+  bookmarks: {
+    type: [
+      {
+        type: mongoose.Types.ObjectId,
+      },
+    ],
+    default: [],
   },
 });
 
