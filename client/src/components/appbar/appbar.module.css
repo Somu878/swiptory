@@ -57,7 +57,8 @@
   justify-content: center;
   align-items: center;
 }
-.mobileMenu {
+.mobileMenu,
+.mobileham {
   display: none;
 }
 
@@ -67,6 +68,9 @@
   }
   .btnGroup {
     display: none;
+  }
+  .mobileham {
+    display: block;
   }
   .mobileMenu {
     background: #ffffff;

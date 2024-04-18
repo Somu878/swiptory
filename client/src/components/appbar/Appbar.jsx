@@ -59,7 +59,7 @@ function Appbar({ loggedIn, username }) {
       ) : (
         <></>
       )}
-      <div>
+      <div className={styles.mobileham}>
         <RxHamburgerMenu
           size={"33px"}
           style={{ marginTop: "12px", marginRight: "10px" }}
