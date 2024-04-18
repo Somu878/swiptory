@@ -10,14 +10,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Password is a required field"],
   },
-  bookmarks: {
-    type: [
-      {
-        type: mongoose.Types.ObjectId,
-      },
-    ],
-    default: [],
-  },
+  bookmarks: [{ type: mongoose.Types.ObjectId }],
 });
 
 module.exports = mongoose.model("User", userSchema, "userData");
