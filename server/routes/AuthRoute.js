@@ -72,7 +72,7 @@ authRouter.get("/userData", tokenVerification, async (req, res) => {
       });
     }
     res.status(200).json({
-      message: "user found",
+      message: "logged",
       username: currUser.username,
     });
   } catch (error) {
