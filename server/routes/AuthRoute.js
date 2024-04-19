@@ -17,15 +17,17 @@ authRouter.post("/login", async (req, res) => {
       username: username,
     });
     if (!userExists) {
-      return res.status(404).json({ message: "No account exists" });
+      return res
+        .status(200)
+        .json({ message: "No account exists.Please register" });
     }
     const passwordMatch = await bcrypt.compare(password, userExists.password);
     if (!passwordMatch) {
-      return res.status(400).json({ message: "Invalid Password" });
+      return res.status(200).json({ message: "Invalid Password" });
     }
     const token = jwt.sign({ userID: userExists._id }, process.env.JWT_SECRET);
     res.json({
-      message: "Login Suceessful",
+      message: "success",
       token: token,
     });
   } catch (error) {
@@ -38,7 +40,7 @@ authRouter.post("/register", async (req, res) => {
     const { username, password } = await userValidation.validateAsync(req.body);
     const userExists = await User.findOne({ username: username });
     if (userExists) {
-      return res.status(400).json({
+      return res.status(200).json({
         message:
           "Username already exists. Please login or try a different username.",
       });
@@ -55,7 +57,7 @@ authRouter.post("/register", async (req, res) => {
       process.env.JWT_SECRET
     );
     res.status(200).json({
-      message: "Registered successfully!",
+      message: "success",
       token: token,
     });
   } catch (error) {
@@ -67,7 +69,7 @@ authRouter.get("/userData", tokenVerification, async (req, res) => {
     const id = req?.userID;
     const currUser = await User.findById(id);
     if (!currUser) {
-      return res.status(404).json({
+      return res.status(200).json({
         message: "User not found",
       });
     }
