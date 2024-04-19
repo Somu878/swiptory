@@ -78,6 +78,5 @@ authRouter.get("/userData", tokenVerification, async (req, res) => {
   } catch (error) {
     handleErrorResponse(res, error);
   }
-  res.send("success");
 });
 module.exports = authRouter;

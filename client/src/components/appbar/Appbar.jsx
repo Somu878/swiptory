@@ -1,27 +1,36 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./appbar.module.css";
 import { useNavigate } from "react-router-dom";
 import { LoadingContext } from "../../layouts/Applayout";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdBookmark } from "react-icons/io";
+import { IoClose } from "react-icons/io5";
 import profile from "../../assets/user.png";
-function Appbar({ loggedIn, username }) {
+import Modal from "react-modal";
+import AuthModal from "../modals/AuthModal";
+import { customStyles } from "../../utils/customs";
+function Appbar() {
   const navigate = useNavigate();
-  const setloading = useContext(LoadingContext);
+  const { setloading, settrigger, user, loggedIn, setloggedIn } =
+    useContext(LoadingContext);
   const [logoutBox, setlogoutBox] = useState(false);
   const [mobileMenu, setmobileMenu] = useState(false);
+  const [authModal, setauthModal] = useState(false);
+  const [authAction, setauthAction] = useState(null);
   const handleLogout = () => {
-    localStorage.clear();
     setloading(true);
-    setTimeout(() => {
-      setlogoutBox(false);
-      setloading(false);
-      setmobileMenu(false);
-    }, 4000);
+    localStorage.clear();
+    settrigger((prev) => prev + 1);
+    setlogoutBox(false);
+    setloggedIn(false);
+    setloading(false);
+    setmobileMenu(false);
   };
   return (
     <div className={styles.appbar}>
-      <div className={styles.title}>SwipTory</div>
+      <div className={styles.title} onClick={() => navigate("/")}>
+        SwipTory
+      </div>
       <div className={styles.btnGroup}>
         {loggedIn ? (
           <>
@@ -44,14 +53,30 @@ function Appbar({ loggedIn, username }) {
           </>
         ) : (
           <>
-            <button className={styles.registerBtn}>Register Now</button>
-            <button className={styles.loginBtn}>Sign in</button>
+            <button
+              className={styles.registerBtn}
+              onClick={() => {
+                setauthAction("Register");
+                setauthModal(true);
+              }}
+            >
+              Register Now
+            </button>
+            <button
+              className={styles.loginBtn}
+              onClick={() => {
+                setauthAction("Login");
+                setauthModal(true);
+              }}
+            >
+              Sign in
+            </button>
           </>
         )}
       </div>
       {logoutBox ? (
         <div className={styles.logoutBox}>
-          <div>{username}s</div>
+          <div className={styles.userName}>{user}</div>
           <button onClick={handleLogout} className={styles.logoutBtn}>
             Log out
           </button>
@@ -83,7 +108,7 @@ function Appbar({ loggedIn, username }) {
                     width={37}
                     height={37}
                   />
-                  <div>{username}s</div>
+                  <div className={styles.userName}>{user}</div>
                 </div>
                 <button className={styles.addStoryBtn}>My Stories</button>
                 <button className={styles.addStoryBtn}>Add Story</button>
@@ -96,8 +121,24 @@ function Appbar({ loggedIn, username }) {
               </div>
             ) : (
               <div className={styles.mobileMenu}>
-                <button className={styles.registerBtn}>Register Now</button>
-                <button className={styles.loginBtn}>Sign in</button>
+                <button
+                  className={styles.registerBtn}
+                  onClick={() => {
+                    setauthAction("Register");
+                    setauthModal(true);
+                  }}
+                >
+                  Register Now
+                </button>
+                <button
+                  className={styles.loginBtn}
+                  onClick={() => {
+                    setauthAction("Login");
+                    setauthModal(true);
+                  }}
+                >
+                  Sign in
+                </button>
               </div>
             )}
           </div>
@@ -105,6 +146,16 @@ function Appbar({ loggedIn, username }) {
           <></>
         )}
       </div>
+      <Modal
+        isOpen={authModal}
+        style={customStyles}
+        onRequestClose={() => {
+          setauthModal(false);
+        }}
+        ariaHideApp={false}
+      >
+        <AuthModal action={authAction} closeModal={() => setauthModal(false)} />
+      </Modal>
     </div>
   );
 }

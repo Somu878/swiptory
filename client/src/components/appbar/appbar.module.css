@@ -61,7 +61,10 @@
 .mobileham {
   display: none;
 }
-
+.userName {
+  font-size: 1rem;
+  font-weight: 600;
+}
 @media only screen and (max-width: 767px) {
   .appbar {
     position: relative;

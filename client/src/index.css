@@ -19,4 +19,5 @@ body {
 button {
   cursor: pointer;
   font-weight: 500;
+  border: none;
 }
