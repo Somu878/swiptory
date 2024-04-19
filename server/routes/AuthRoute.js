@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/UserModel");
 const Joi = require("joi");
+const tokenVerification = require("../middlewares/verifyToken");
 const { handleErrorResponse } = require("../utils/handleError");
 const userValidation = Joi.object({
   username: Joi.string().required().label("Username"),
@@ -61,5 +62,22 @@ authRouter.post("/register", async (req, res) => {
     handleErrorResponse(res, error);
   }
 });
-
+authRouter.get("/userData", tokenVerification, async (req, res) => {
+  try {
+    const id = req.userID;
+    const currUser = await User.findById(id);
+    if (!currUser) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+    res.status(200).json({
+      message: "user found",
+      username: currUser.username,
+    });
+  } catch (error) {
+    handleErrorResponse(res, error);
+  }
+  res.send("success");
+});
 module.exports = authRouter;
