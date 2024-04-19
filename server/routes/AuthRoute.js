@@ -64,14 +64,14 @@ authRouter.post("/register", async (req, res) => {
 });
 authRouter.get("/userData", tokenVerification, async (req, res) => {
   try {
-    const id = req.userID;
+    const id = req?.userID;
     const currUser = await User.findById(id);
     if (!currUser) {
       return res.status(404).json({
         message: "User not found",
       });
     }
-    res.status(200).json({
+    return res.status(200).json({
       message: "logged",
       username: currUser.username,
     });
