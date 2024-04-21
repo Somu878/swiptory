@@ -7,8 +7,9 @@ import { IoMdBookmark } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import profile from "../../assets/user.png";
 import Modal from "react-modal";
-import AuthModal from "../modals/AuthModal";
-import { customStyles } from "../../utils/customs";
+import AuthModal from "../modals/authmodal/AuthModal";
+import { customStyles, customStyles2 } from "../../utils/customs";
+import AddStory from "../modals/addStoryModal/AddStory";
 function Appbar() {
   const navigate = useNavigate();
   const { setloading, settrigger, user, loggedIn, setloggedIn } =
@@ -17,13 +18,16 @@ function Appbar() {
   const [mobileMenu, setmobileMenu] = useState(false);
   const [authModal, setauthModal] = useState(false);
   const [authAction, setauthAction] = useState(null);
+  const [addStoryModel, setaddStoryModel] = useState(false);
   const handleLogout = () => {
     setloading(true);
     localStorage.clear();
     settrigger((prev) => prev + 1);
     setlogoutBox(false);
     setloggedIn(false);
-    setloading(false);
+    setTimeout(() => {
+      setloading(false);
+    }, 2000);
     setmobileMenu(false);
   };
   return (
@@ -35,9 +39,18 @@ function Appbar() {
         {loggedIn ? (
           <>
             <button className={styles.bookmarkBtn}>
-              <IoMdBookmark size={"13.5px"} /> Bookmarks
+              <IoMdBookmark
+                size={"18px"}
+                style={{ marginRight: "-4px", marginBottom: "-3px" }}
+              />{" "}
+              Bookmarks
             </button>
-            <button className={styles.addStoryBtn}>Add Story</button>
+            <button
+              className={styles.addStoryBtn}
+              onClick={() => setaddStoryModel(true)}
+            >
+              Add Story
+            </button>
             <img
               className={styles.profileImg}
               src={profile}
@@ -76,7 +89,7 @@ function Appbar() {
       </div>
       {logoutBox ? (
         <div className={styles.logoutBox}>
-          <div className={styles.userName}>{user}</div>
+          <div className={styles.userName}>Hello! {user}</div>
           <button onClick={handleLogout} className={styles.logoutBtn}>
             Log out
           </button>
@@ -98,7 +111,7 @@ function Appbar() {
                   style={{
                     display: "flex",
                     flexDirection: "row",
-                    gap: "40px",
+                    gap: "50px",
                   }}
                 >
                   <img
@@ -109,11 +122,28 @@ function Appbar() {
                     height={37}
                   />
                   <div className={styles.userName}>{user}</div>
+                  <IoClose
+                    className={styles.mCloseIcon}
+                    size={"25px"}
+                    onClick={() => setmobileMenu(false)}
+                  />
                 </div>
                 <button className={styles.addStoryBtn}>My Stories</button>
-                <button className={styles.addStoryBtn}>Add Story</button>
+                <button
+                  className={styles.addStoryBtn}
+                  onClick={() => {
+                    setmobileMenu(false);
+                    setaddStoryModel(true);
+                  }}
+                >
+                  Add Story
+                </button>
                 <button className={styles.bookmarkBtn}>
-                  <IoMdBookmark size={"13.5px"} /> Bookmarks
+                  <IoMdBookmark
+                    size={"18px"}
+                    style={{ marginRight: "-4px", marginBottom: "-3px" }}
+                  />{" "}
+                  Bookmarks
                 </button>
                 <button onClick={handleLogout} className={styles.logoutBtn}>
                   Log out
@@ -124,6 +154,7 @@ function Appbar() {
                 <button
                   className={styles.registerBtn}
                   onClick={() => {
+                    setmobileMenu(false);
                     setauthAction("Register");
                     setauthModal(true);
                   }}
@@ -133,6 +164,7 @@ function Appbar() {
                 <button
                   className={styles.loginBtn}
                   onClick={() => {
+                    setmobileMenu(false);
                     setauthAction("Login");
                     setauthModal(true);
                   }}
@@ -155,6 +187,14 @@ function Appbar() {
         ariaHideApp={false}
       >
         <AuthModal action={authAction} closeModal={() => setauthModal(false)} />
+      </Modal>
+      <Modal
+        isOpen={addStoryModel}
+        onRequestClose={() => setaddStoryModel(false)}
+        ariaHideApp={false}
+        style={customStyles2}
+      >
+        <AddStory modalClose={() => setaddStoryModel(false)} />
       </Modal>
     </div>
   );

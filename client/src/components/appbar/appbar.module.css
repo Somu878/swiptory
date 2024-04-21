@@ -45,6 +45,7 @@
   background: #ff7373;
 }
 .logoutBox {
+  z-index: 2;
   position: absolute;
   width: 17vw;
   height: 20vh;
@@ -76,6 +77,7 @@
     display: block;
   }
   .mobileMenu {
+    z-index: 1;
     background: #ffffff;
     padding-top: 15px;
     padding-bottom: 15px;

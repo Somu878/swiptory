@@ -34,7 +34,7 @@ function Applayout() {
   };
   useEffect(() => {
     checkAuth();
-  }, [trigger]);
+  }, [loggedIn]);
   return (
     <div style={{ display: "flex" }}>
       <LoadingContext.Provider value={contextValues}>

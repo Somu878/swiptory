@@ -2,17 +2,20 @@ import React, { useContext, useState } from "react";
 import styles from "./authModal.module.css";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import { LoginUser, RegisterUser } from "../../api/authApi";
-import { LoadingContext } from "../../layouts/Applayout";
+import { LoginUser, RegisterUser } from "../../../api/authApi";
+import { LoadingContext } from "../../../layouts/Applayout";
 function AuthModal({ action, closeModal }) {
   const { setloggedIn } = useContext(LoadingContext);
   const [showPassord, setshowPassord] = useState(false);
   const [username, setusername] = useState("");
   const [password, setpassword] = useState("");
-  const [error, seterror] = useState(null);
+  const [error, seterror] = useState("");
   const handleSubmit = async (e) => {
     if (e) {
       e.preventDefault();
+    }
+    if (!username || !password) {
+      seterror("All fields are required");
     }
     try {
       let response;
@@ -21,14 +24,13 @@ function AuthModal({ action, closeModal }) {
       } else {
         response = await RegisterUser(username, password);
       }
-      if (response.status === 400) {
-        seterror("Invalid password");
-      } else if (response.status === 404) {
-        seterror("No account found.Please register or try different inputs");
-      } else if (response.status === 200) {
+
+      if (response.data.message == "success") {
         closeModal();
         localStorage.setItem("token", response?.data?.token);
         setloggedIn(true);
+      } else {
+        seterror(response.data.message);
       }
     } catch (error) {
       console.log(error);
@@ -85,7 +87,9 @@ function AuthModal({ action, closeModal }) {
             />
           )}
         </div>
-        <span className={styles.errorSpan}>{error}</span>
+        <div className={styles.errorContainer}>
+          <div className={styles.errorSpan}>{error}</div>
+        </div>
         <button className={styles.submitBtn} onClick={handleSubmit}>
           {action}
         </button>
