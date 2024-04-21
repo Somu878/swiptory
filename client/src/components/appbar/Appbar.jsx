@@ -194,7 +194,7 @@ function Appbar() {
         ariaHideApp={false}
         style={customStyles2}
       >
-        <AddStory modalClose={() => setaddStoryModel(false)} />
+        <AddStory action={"add"} modalClose={() => setaddStoryModel(false)} />
       </Modal>
     </div>
   );

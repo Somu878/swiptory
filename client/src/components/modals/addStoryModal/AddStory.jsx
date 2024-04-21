@@ -4,6 +4,7 @@ import { IoMdCloseCircleOutline } from "react-icons/io";
 import { categories } from "../../../utils/customs";
 
 function AddStory({ action, modalClose }) {
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const initialSlides = [
     { name: "Slide 1" },
     { name: "Slide 2" },
@@ -21,9 +22,18 @@ function AddStory({ action, modalClose }) {
     const updatedSlides = slidesArray.filter((_, i) => i !== index);
     setSlidesArray(updatedSlides);
   };
+  const handlePreviousSlide = () => {
+    setCurrentSlideIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+  };
+
+  const handleNextSlide = () => {
+    setCurrentSlideIndex((prevIndex) =>
+      Math.min(prevIndex + 1, slidesArray.length - 1)
+    );
+  };
   return (
     <div className={styles.addStoryContainer}>
-      {/* <span>cssa</span> */}
+      <span className={styles.span1}>Add upto 6 slides</span>
       <IoMdCloseCircleOutline
         size={40}
         color="#FF0000"
@@ -35,7 +45,13 @@ function AddStory({ action, modalClose }) {
       <div className={styles.formContainer}>
         <div className={styles.slidesContainer}>
           {slidesArray.map((slide, index) => (
-            <button className={styles.slide} key={index}>
+            <button
+              onClick={() => setCurrentSlideIndex(index)}
+              className={`${styles.slide} ${
+                currentSlideIndex === index ? styles.activeSlide : ""
+              }`}
+              key={index}
+            >
               {slide.name}
               {index > 2 && (
                 <IoMdCloseCircleOutline
@@ -93,11 +109,21 @@ function AddStory({ action, modalClose }) {
                 <option key={item.name}>{item.name}</option>
               ))}
             </select>
+            <span className={styles.span2}>
+              This field will be common for all slides
+            </span>
           </div>
           <div className={styles.btnsContainer}>
             <div className={styles.btnGroup}>
-              <button className={styles.previousBtn}>Previous</button>
-              <button className={styles.nextBtn}>Next</button>
+              <button
+                className={styles.previousBtn}
+                onClick={handlePreviousSlide}
+              >
+                Previous
+              </button>
+              <button className={styles.nextBtn} onClick={handleNextSlide}>
+                Next
+              </button>
             </div>
             <button className={styles.postBtn}>Post</button>
           </div>

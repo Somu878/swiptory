@@ -43,7 +43,7 @@
   position: absolute;
   top: -3%;
 }
-.slideActive {
+.activeSlide {
   border: 2px solid #73abff;
 }
 .storyForm {
@@ -65,7 +65,7 @@
 .inputGroup input,
 select {
   width: 275px;
-  height: 40px;
+  height: 35px;
   font-size: 1rem;
   padding: 2px;
   border: 1.4px solid #000000;
@@ -75,7 +75,7 @@ select {
 }
 .inputGroup textarea {
   width: 275px;
-  height: 60px;
+  height: 65px;
   resize: none;
   padding: 2px;
   font-size: 1rem;
@@ -108,9 +108,26 @@ select {
 .postBtn {
   background: #ff7373;
 }
+.span1 {
+  position: absolute;
+  font-size: 0.8rem;
+  left: 81%;
+  color: #000000;
+}
+.span2 {
+  position: absolute;
+  left: 76%;
+  font-size: 0.8rem;
+  color: #000000;
+}
 @media only screen and (max-width: 767px) {
+  .span1,
+  .span2 {
+    display: none;
+  }
   .addStoryContainer {
     padding: 0;
+    height: auto;
   }
   .titleText {
     display: block;
@@ -121,6 +138,7 @@ select {
   .formContainer {
     flex-direction: row;
     gap: 0.4rem;
+    margin-top: -10px;
   }
   .slide,
   .addSlideBtn {
