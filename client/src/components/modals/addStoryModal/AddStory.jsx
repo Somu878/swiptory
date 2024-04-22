@@ -1,27 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./addStory.module.css";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { categories } from "../../../utils/customs";
+import storyApi from "../../../api/storiesApi";
+import { v4 as uuidv4 } from "uuid";
+import toast from "react-hot-toast";
 
-function AddStory({ action, modalClose }) {
+function AddStory({ action, modalClose, storyId }) {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const initialSlides = [
-    { name: "Slide 1" },
-    { name: "Slide 2" },
-    { name: "Slide 3" },
+    { _id: uuidv4(), category: "", title: "", description: "", imageURL: "" },
+    { _id: uuidv4(), category: "", title: "", description: "", imageURL: "" },
+    { _id: uuidv4(), category: "", title: "", description: "", imageURL: "" },
   ];
   const [slidesArray, setSlidesArray] = useState(initialSlides);
   const handleAddSlide = () => {
     if (slidesArray.length > 5) {
       return;
     }
-    const newSlide = { name: `Slide ${slidesArray.length + 1}` };
+    const newSlide = {
+      _id: uuidv4(),
+      category: "",
+      title: "",
+      description: "",
+      imageURL: "",
+    };
     setSlidesArray([...slidesArray, newSlide]);
   };
-  const handleRemoveSlide = (index) => {
-    const updatedSlides = slidesArray.filter((_, i) => i !== index);
+  const handleRemoveSlide = (id) => {
+    const updatedSlides = slidesArray.filter((slide) => slide._id !== id);
     setSlidesArray(updatedSlides);
   };
+
   const handlePreviousSlide = () => {
     setCurrentSlideIndex((prevIndex) => Math.max(prevIndex - 1, 0));
   };
@@ -31,6 +41,70 @@ function AddStory({ action, modalClose }) {
       Math.min(prevIndex + 1, slidesArray.length - 1)
     );
   };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setSlidesArray((prevSlides) => {
+      return prevSlides.map((slide, index) => {
+        if (index === currentSlideIndex) {
+          return {
+            ...slide,
+            [name]: value,
+          };
+        }
+        return slide;
+      });
+    });
+  };
+  const fetchStoryData = async () => {
+    try {
+      const res = await storyApi.getStory(storyId);
+      const fetchedSlides = res?.story?.slides || [];
+      setSlidesArray(fetchedSlides);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const postNewStory = async () => {
+    if (
+      slidesArray.length < 3 ||
+      slidesArray.some(
+        (slide) =>
+          !slide.category ||
+          !slide.title ||
+          !slide.description ||
+          !slide.imageURL
+      )
+    ) {
+      toast.error("Please fill all fields");
+      return;
+    }
+    try {
+      const slidesWithoutId = {
+        slides: slidesArray.map((slide) => ({
+          category: slide.category,
+          title: slide.title,
+          description: slide.description,
+          imageURL: slide.imageURL,
+        })),
+      };
+      const res = await storyApi.addStory(slidesWithoutId);
+      if (res.message == "New Story added") {
+        modalClose();
+        toast.success("New story added");
+      } else {
+        toast.error("Error while posting!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (action == "update") {
+      fetchStoryData();
+    }
+  }, []);
+
   return (
     <div className={styles.addStoryContainer}>
       <span className={styles.span1}>Add upto 6 slides</span>
@@ -50,15 +124,15 @@ function AddStory({ action, modalClose }) {
               className={`${styles.slide} ${
                 currentSlideIndex === index ? styles.activeSlide : ""
               }`}
-              key={index}
+              key={slide._id}
             >
-              {slide.name}
+              Slide {index + 1}
               {index > 2 && (
                 <IoMdCloseCircleOutline
                   className={styles.slideCloseIcon}
                   size={20}
                   color="#FF0000"
-                  onClick={() => handleRemoveSlide(index)}
+                  onClick={() => handleRemoveSlide(slide._id)}
                 />
               )}
             </button>
@@ -69,12 +143,14 @@ function AddStory({ action, modalClose }) {
         </div>
         <div className={styles.storyForm}>
           <div className={styles.inputGroup}>
-            <label htmlFor="heading">Heading</label>
+            <label htmlFor="title">Heading</label>
             <input
               type="text"
-              name="heading"
+              name="title"
               placeholder="Your heading"
               spellCheck={false}
+              onChange={handleInputChange}
+              value={slidesArray[currentSlideIndex]?.title || ""}
               required
             />
           </div>
@@ -83,25 +159,33 @@ function AddStory({ action, modalClose }) {
             <label htmlFor="description">Description</label>
             <textarea
               type="text"
-              name="Story description"
+              name="description"
               placeholder="Description"
               spellCheck={false}
               required
+              onChange={handleInputChange}
+              value={slidesArray[currentSlideIndex]?.description || ""}
             />
           </div>
           <div className={styles.inputGroup}>
-            <label htmlFor="image">Image URL</label>
+            <label htmlFor="imageURL">Image URL</label>
             <input
               type="text"
-              name="image"
+              name="imageURL"
               placeholder="Add Image url"
               spellCheck={false}
+              onChange={handleInputChange}
+              value={slidesArray[currentSlideIndex]?.imageURL || ""}
               required
             />
           </div>
           <div className={styles.inputGroup}>
             <label htmlFor="category">Category</label>
-            <select name="category">
+            <select
+              name="category"
+              value={slidesArray[currentSlideIndex]?.category || ""}
+              onChange={handleInputChange}
+            >
               <option value="" disabled selected>
                 Select Category
               </option>
@@ -125,7 +209,9 @@ function AddStory({ action, modalClose }) {
                 Next
               </button>
             </div>
-            <button className={styles.postBtn}>Post</button>
+            <button className={styles.postBtn} onClick={postNewStory}>
+              Post
+            </button>
           </div>
         </div>
       </div>
