@@ -1,0 +1,49 @@
+.storyCard {
+  position: relative;
+  width: 20vw;
+  height: 50vh;
+  margin-top: 2rem;
+  background-position: center;
+  background-size: cover;
+  background-image: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.8) 20%,
+    rgba(0, 0, 0, 0) 50%
+  );
+  border-radius: 15px;
+}
+.storyCard img {
+  width: 100%;
+  height: 100%;
+}
+
+.storyData {
+  width: 90%;
+  height: auto;
+  position: absolute;
+  left: 5%;
+  color: rgb(255, 255, 255);
+  top: 75%;
+}
+.storyTitle {
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+.storyDescription {
+  font-size: 1rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.editBtn {
+  position: absolute;
+  top: 97%;
+  left: 40%;
+  height: 25px;
+  width: 55px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #ffffff;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}

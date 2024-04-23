@@ -1,0 +1,35 @@
+.storiesContainer {
+  width: 100%;
+  min-height: 40vh;
+  height: auto;
+  padding: 0.8rem;
+  position: relative;
+}
+.title {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.cardsContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  row-gap: 1rem;
+  margin-left: 2rem;
+  /* grid-template-rows: repeat(2, 1fr); */
+}
+.noDataDiv {
+  text-align: center;
+  margin-top: 16vh;
+  color: #8e8e8e;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+.showMoreBtn {
+  background-color: #ff7373;
+  color: #ffffff;
+  width: 100px;
+  height: 30px;
+  border-radius: 0.7rem;
+  font-weight: 600;
+  margin-left: 45%;
+}

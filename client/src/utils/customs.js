@@ -3,7 +3,7 @@ import food from "../assets/food.png";
 import travel from "../assets/trave.png";
 import technology from "../assets/technology.png";
 import movies from "../assets/movies.png";
-import health from "../assets/health.png";
+import health from "../assets/health-fitness-cartoon_24640-25737.png";
 export const customStyles = {
   overlay: {
     backgroundColor: "rgba(0, 0, 0, 0.78)",
@@ -43,7 +43,7 @@ export const categories = [
   { name: "All", imageSrc: all },
   { name: "Food", imageSrc: food },
   { name: "Technology", imageSrc: technology },
-  { name: "Health & Fitness", imageSrc: health },
+  { name: "Fitness", imageSrc: health },
   { name: "Travel", imageSrc: travel },
   { name: "Movies", imageSrc: movies },
 ];

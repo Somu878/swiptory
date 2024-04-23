@@ -1,9 +1,12 @@
 .home {
   width: 100vw;
-  min-height: 100vh;
+  height: 100vh;
   z-index: 2;
+  overflow-x: scroll;
 }
-
+.storiesContainerHome {
+  margin-bottom: 10vh;
+}
 .categoryContainer {
   display: flex;
   gap: 10px;
