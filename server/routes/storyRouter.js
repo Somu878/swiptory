@@ -22,7 +22,7 @@ const storySchemaValidation = Joi.object({
 });
 storyRouter.get("/story-by-category", async (req, res) => {
   try {
-    const { category, page } = req.body;
+    const { category, page } = req.query;
     const categoryRegex = new RegExp(category, "i");
     const query = {
       "slides.category": categoryRegex,
@@ -67,7 +67,7 @@ storyRouter.post("/add", tokenVerification, async (req, res) => {
     });
     await newStory.save();
     return res.status(201).json({
-      message: "New Story added",
+      message: "success",
     });
   } catch (error) {
     handleErrorResponse(res, error);
@@ -91,7 +91,7 @@ storyRouter.patch("/update/:id", tokenVerification, async (req, res) => {
     storyToUpdate.slides = storyData.slides;
     storyToUpdate.lastUpdatedAt = new Date();
     await storyToUpdate.save();
-    res.json({ message: "Story updated successfully", story: storyToUpdate });
+    res.json({ message: "success" });
   } catch (error) {
     handleErrorResponse(res, error);
   }
