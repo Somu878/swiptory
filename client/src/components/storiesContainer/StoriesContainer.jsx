@@ -8,10 +8,28 @@ function StoriesContainer({ category }) {
   const { loggedIn, setloading } = useContext(LoadingContext);
   const [showMoreBtn, setshowMoreBtn] = useState(false);
   const [storyData, setstoryData] = useState([]);
+  //   const [myStories, setmyStories] = useState([]);
+  //   const fetchMyStories = async () => {
+  //     try {
+  //       const res = await storyApi.getMyStories();
+  //       setmyStories(res?.stories);
+  //     } catch (error) {
+  //       console.log(error);
+  //     } finally {
+  //       setloading(false);
+  //     }
+  //   };
   const fetchStories = async () => {
     try {
-      const res = await storyApi.getStoriesByCategory(category, page);
+      let res;
+      if (category === "My Stories") {
+        res = await storyApi.getMyStories(page);
+      } else {
+        res = await storyApi.getStoriesByCategory(category, page);
+      }
+
       setstoryData(res?.stories);
+
       if (res?.remainingStories > 0) {
         setshowMoreBtn(true);
       } else {
@@ -29,10 +47,15 @@ function StoriesContainer({ category }) {
   }, [category, loggedIn, page]);
   return (
     <div className={styles.storiesContainer}>
-      <div className={styles.title}>Top Stories about {category}</div>
-      {storyData.length > 0 ? (
+      {category == "My Stories" ? (
+        <div className={styles.title}>{category}</div>
+      ) : (
+        <div className={styles.title}>Top Stories about {category}</div>
+      )}
+
+      {storyData?.length > 0 ? (
         <div className={styles.cardsContainer}>
-          {storyData.map((story) => (
+          {storyData?.map((story) => (
             <StoryCard
               key={story._id}
               title={story.slides[0].title}

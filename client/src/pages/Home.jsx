@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./home.module.css";
 import { categories } from "../utils/customs";
 import CategoryCard from "../components/categoryCard/CategoryCard";
@@ -6,7 +6,7 @@ import StoriesContainer from "../components/storiesContainer/StoriesContainer";
 import { Toaster } from "react-hot-toast";
 import { LoadingContext } from "../layouts/Applayout";
 function Home() {
-  const { setloading } = useContext(LoadingContext);
+  const { setloading, loggedIn } = useContext(LoadingContext);
   const [activeCategory, setActiveCategory] = useState("All");
 
   const handleCategoryClick = (name) => {
@@ -32,11 +32,12 @@ function Home() {
       </div>
       <div className={styles.storiesContainerHome} style={{ zIndex: 2 }}>
         {activeCategory === "All" ? (
-          categories
-            .slice(1)
-            .map((category, index) => (
+          <>
+            {loggedIn && <StoriesContainer category={"My Stories"} />}
+            {categories.slice(1).map((category, index) => (
               <StoriesContainer key={index} category={category.name} />
-            ))
+            ))}
+          </>
         ) : (
           <StoriesContainer category={activeCategory} />
         )}
