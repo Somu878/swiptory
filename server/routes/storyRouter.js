@@ -150,11 +150,14 @@ storyRouter.put("/bookmark/:id", tokenVerification, async (req, res) => {
     handleErrorResponse(res, error);
   }
 });
-storyRouter.get("/my-story", tokenVerification, async (req, res) => {
+storyRouter.get(`/my-story${page}`, tokenVerification, async (req, res) => {
   try {
+    const page = req.query.page || 1;
     const myStories = await Story.find({
       ownedBy: req.userID,
     });
+    const totalStories = myStories.length;
+    const storiesRemainanig = totalStories - page * 4;
     const storiesWithEditAccess = myStories.map((story) => {
       return {
         ...story.toObject(),
@@ -163,6 +166,7 @@ storyRouter.get("/my-story", tokenVerification, async (req, res) => {
     });
     return res.status(200).json({
       stories: storiesWithEditAccess,
+      remainingStories: storiesRemainanig,
     });
   } catch (error) {
     handleErrorResponse(res, error);
