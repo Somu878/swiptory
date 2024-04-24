@@ -155,7 +155,7 @@ storyRouter.get("/my-story", tokenVerification, async (req, res) => {
     const page = req.query.page || 1;
     const myStories = await Story.find({
       ownedBy: req.userID,
-    });
+    }).limit(page * 4);
     const totalStories = myStories.length;
     const storiesRemainanig = totalStories - page * 4;
     const storiesWithEditAccess = myStories.map((story) => {
