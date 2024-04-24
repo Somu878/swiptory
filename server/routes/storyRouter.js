@@ -150,7 +150,7 @@ storyRouter.put("/bookmark/:id", tokenVerification, async (req, res) => {
     handleErrorResponse(res, error);
   }
 });
-storyRouter.get(`/my-story${page}`, tokenVerification, async (req, res) => {
+storyRouter.get("/my-story", tokenVerification, async (req, res) => {
   try {
     const page = req.query.page || 1;
     const myStories = await Story.find({
