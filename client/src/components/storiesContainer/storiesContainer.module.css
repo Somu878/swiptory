@@ -22,7 +22,7 @@
   margin-top: 16vh;
   color: #8e8e8e;
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 .showMoreBtn {
   background-color: #ff7373;
@@ -31,5 +31,23 @@
   height: 30px;
   border-radius: 0.7rem;
   font-weight: 600;
-  margin-left: 45%;
+  margin-left: 45.5%;
+  margin-top: 1.4rem;
+}
+
+@media only screen and (max-width: 767px) {
+  .storiesContainer {
+    min-height: 50vh;
+  }
+  .noDataDiv {
+    margin-top: 35%;
+  }
+  .showMoreBtn {
+    margin-left: 35%;
+  }
+  .cardsContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 1.2rem;
+  }
 }

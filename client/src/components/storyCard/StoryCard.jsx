@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./storyCard.module.css";
+import Modal from "react-modal";
 import { FiEdit } from "react-icons/fi";
-function StoryCard({ title, description, image, editable }) {
+import AddStory from "../modals/addStoryModal/AddStory";
+import { customStyles2 } from "../../utils/customs";
+function StoryCard({ title, description, image, editable, storyId }) {
+  const [editModal, seteditModal] = useState(false);
   return (
     <div
       className={styles.storyCard}
@@ -15,10 +19,22 @@ function StoryCard({ title, description, image, editable }) {
         <div className={styles.storyDescription}>{description}</div>
       </div>
       {editable && (
-        <button className={styles.editBtn}>
+        <button className={styles.editBtn} onClick={() => seteditModal(true)}>
           <FiEdit /> Edit
         </button>
       )}
+      <Modal
+        isOpen={editModal}
+        ariaHideApp={false}
+        onRequestClose={() => seteditModal(false)}
+        style={customStyles2}
+      >
+        <AddStory
+          action={"update"}
+          storyId={storyId}
+          modalClose={() => seteditModal(false)}
+        />
+      </Modal>
     </div>
   );
 }

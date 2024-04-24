@@ -65,6 +65,27 @@ function AddStory({ action, modalClose, storyId }) {
       console.log(error);
     }
   };
+  const updateStory = async () => {
+    try {
+      const slidesWithoutId = {
+        slides: slidesArray.map((slide) => ({
+          category: slide.category,
+          title: slide.title,
+          description: slide.description,
+          imageURL: slide.imageURL,
+        })),
+      };
+      const res = await storyApi.updateStory(storyId, slidesWithoutId);
+      if (res?.message == "success") {
+        toast.success("Story updated!");
+        modalClose();
+      } else {
+        toast.error(res?.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const postNewStory = async () => {
     if (
       slidesArray.length < 3 ||
@@ -89,7 +110,7 @@ function AddStory({ action, modalClose, storyId }) {
         })),
       };
       const res = await storyApi.addStory(slidesWithoutId);
-      if (res.message == "New Story added") {
+      if (res.message == "success") {
         modalClose();
         toast.success("New story added");
       } else {
@@ -97,6 +118,13 @@ function AddStory({ action, modalClose, storyId }) {
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+  const handlePostStory = async () => {
+    if (action == "add") {
+      postNewStory();
+    } else {
+      updateStory();
     }
   };
   useEffect(() => {
@@ -209,7 +237,7 @@ function AddStory({ action, modalClose, storyId }) {
                 Next
               </button>
             </div>
-            <button className={styles.postBtn} onClick={postNewStory}>
+            <button className={styles.postBtn} onClick={handlePostStory}>
               Post
             </button>
           </div>

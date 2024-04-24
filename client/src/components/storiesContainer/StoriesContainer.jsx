@@ -3,28 +3,30 @@ import styles from "./storiesContainer.module.css";
 import StoryCard from "../storyCard/StoryCard";
 import storyApi from "../../api/storiesApi";
 import { LoadingContext } from "../../layouts/Applayout";
-function StoriesContainer({ category, loggedIn }) {
-  const { setloading } = useContext(LoadingContext);
+function StoriesContainer({ category }) {
+  const [page, setpage] = useState(1);
+  const { loggedIn, setloading } = useContext(LoadingContext);
   const [showMoreBtn, setshowMoreBtn] = useState(false);
   const [storyData, setstoryData] = useState([]);
   const fetchStories = async () => {
     try {
-      const res = await storyApi.getStoriesByCategory(category, 1);
-      setloading(true);
-      setTimeout(() => {
-        setloading(false);
-        setstoryData(res?.stories);
-        if (res?.remainingStories !== 0) {
-          setshowMoreBtn(true);
-        }
-      }, 3000);
+      const res = await storyApi.getStoriesByCategory(category, page);
+      setstoryData(res?.stories);
+      if (res?.remainingStories > 0) {
+        setshowMoreBtn(true);
+      } else {
+        setshowMoreBtn(false);
+      }
     } catch (error) {
       console.log(error);
+    } finally {
+      setloading(false);
     }
   };
+
   useEffect(() => {
     fetchStories();
-  }, [category]);
+  }, [category, loggedIn, page]);
   return (
     <div className={styles.storiesContainer}>
       <div className={styles.title}>Top Stories about {category}</div>
@@ -37,6 +39,7 @@ function StoriesContainer({ category, loggedIn }) {
               description={story.slides[0].description}
               image={story.slides[0].imageURL}
               editable={story.editable}
+              storyId={story._id}
             />
           ))}
         </div>
@@ -44,7 +47,14 @@ function StoriesContainer({ category, loggedIn }) {
         <div className={styles.noDataDiv}>No stories Available</div>
       )}
 
-      {showMoreBtn && <button className={styles.showMoreBtn}>Show more</button>}
+      {showMoreBtn && (
+        <button
+          className={styles.showMoreBtn}
+          onClick={() => setpage(page + 1)}
+        >
+          Show more
+        </button>
+      )}
     </div>
   );
 }

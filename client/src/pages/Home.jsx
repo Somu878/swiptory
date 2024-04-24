@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import styles from "./home.module.css";
 import { categories } from "../utils/customs";
 import CategoryCard from "../components/categoryCard/CategoryCard";
 import StoriesContainer from "../components/storiesContainer/StoriesContainer";
 import { Toaster } from "react-hot-toast";
+import { LoadingContext } from "../layouts/Applayout";
 function Home() {
+  const { setloading } = useContext(LoadingContext);
   const [activeCategory, setActiveCategory] = useState("All");
 
   const handleCategoryClick = (name) => {
-    setActiveCategory(name);
+    setloading(true);
+    setTimeout(() => {
+      setActiveCategory(name);
+    }, 2000);
   };
 
   return (
