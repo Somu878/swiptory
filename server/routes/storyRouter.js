@@ -153,10 +153,11 @@ storyRouter.put("/bookmark/:id", tokenVerification, async (req, res) => {
 storyRouter.get("/my-story", tokenVerification, async (req, res) => {
   try {
     const page = req.query.page || 1;
-    const myStories = await Story.find({
+    const query = {
       ownedBy: req.userID,
-    }).limit(page * 4);
-    const totalStories = myStories.length;
+    };
+    const myStories = await Story.find(query).limit(page * 4);
+    const totalStories = await Story.countDocuments(query);
     const storiesRemainanig = totalStories - page * 4;
     const storiesWithEditAccess = myStories.map((story) => {
       return {
