@@ -38,6 +38,26 @@ export const customStyles2 = {
     borderRadius: "25px",
   },
 };
+export const customStyles3 = {
+  overlay: {
+    backgroundColor: "rgba(0, 0, 0, 0.78)",
+  },
+  content: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    borderRadius: "8px",
+    border: "none",
+    padding: "0",
+    backgroundColor: "transparent",
+  },
+};
 
 export const categories = [
   { name: "All", imageSrc: all },

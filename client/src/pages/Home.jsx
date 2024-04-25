@@ -33,7 +33,11 @@ function Home() {
       <div className={styles.storiesContainerHome} style={{ zIndex: 2 }}>
         {activeCategory === "All" ? (
           <>
-            {loggedIn && <StoriesContainer category={"My Stories"} />}
+            {loggedIn && (
+              <div className={styles.myStoriesContainer}>
+                <StoriesContainer category={"My Stories"} />
+              </div>
+            )}
             {categories.slice(1).map((category, index) => (
               <StoriesContainer key={index} category={category.name} />
             ))}

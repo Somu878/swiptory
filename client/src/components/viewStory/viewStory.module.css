@@ -1,0 +1,28 @@
+.ViewCardContainer {
+  display: flex;
+  gap: 10vw;
+  color: white;
+}
+.viewStoryCard {
+  width: 25vw;
+  height: 80vh;
+  background-size: cover;
+  background-position: center;
+  border-radius: 9px;
+  box-shadow: 0 4px 30px 0 rgba(255, 255, 255, 0.4);
+  padding: 7px;
+  /* position: relative; */
+}
+.iconsGroup {
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+}
+.shareIcon {
+  margin-top: 8px;
+}
+.arrow1,
+.arrow2 {
+  color: #ffffff;
+  margin-top: 30%;
+}
