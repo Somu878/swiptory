@@ -12,9 +12,9 @@
   );
   border-radius: 10px;
 }
-.storyCard:hover {
+/* .storyCard:hover {
   transform: scale(1.01);
-}
+} */
 .storyCard img {
   width: 100%;
   height: 100%;

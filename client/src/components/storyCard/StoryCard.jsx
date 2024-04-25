@@ -9,23 +9,31 @@ function StoryCard({ title, description, image, editable, storyId }) {
   const [editModal, seteditModal] = useState(false);
   const [ViewModal, setViewModal] = useState(false);
   return (
-    <div
-      className={styles.storyCard}
-      style={{
-        backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.8) 20%, rgba(0, 0, 0, 0) 50%), url(${image})`,
-      }}
-      onDoubleClick={() => setViewModal(true)}
-    >
-      <div className={styles.storyData}>
-        {/* <img src={image} alt="" /> */}
-        <div className={styles.storyTitle}>{title}</div>
-        <div className={styles.storyDescription}>{description}</div>
+    <>
+      <div
+        className={styles.storyCard}
+        onClick={() => setViewModal(true)}
+        style={{
+          backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.8) 20%, rgba(0, 0, 0, 0) 50%), url(${image})`,
+        }}
+      >
+        <div className={styles.storyData}>
+          {/* <img src={image} alt="" /> */}
+          <div className={styles.storyTitle}>{title}</div>
+          <div className={styles.storyDescription}>{description}</div>
+        </div>
+        {editable && (
+          <button
+            className={styles.editBtn}
+            onClick={(e) => {
+              e.stopPropagation();
+              seteditModal(true);
+            }}
+          >
+            <FiEdit /> Edit
+          </button>
+        )}
       </div>
-      {editable && (
-        <button className={styles.editBtn} onClick={() => seteditModal(true)}>
-          <FiEdit /> Edit
-        </button>
-      )}
       <Modal
         isOpen={editModal}
         ariaHideApp={false}
@@ -51,7 +59,7 @@ function StoryCard({ title, description, image, editable, storyId }) {
           }}
         />
       </Modal>
-    </div>
+    </>
   );
 }
 

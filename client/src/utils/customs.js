@@ -6,7 +6,7 @@ import movies from "../assets/movies.png";
 import health from "../assets/health-fitness-cartoon_24640-25737.png";
 export const customStyles = {
   overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.78)",
+    backgroundColor: "rgba(0, 0, 0, 0.90)",
   },
   content: {
     top: "50%",
@@ -23,7 +23,7 @@ export const customStyles = {
 };
 export const customStyles2 = {
   overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.78)",
+    backgroundColor: "rgba(0, 0, 0, 0.90)",
   },
   content: {
     top: "50%",
@@ -40,7 +40,7 @@ export const customStyles2 = {
 };
 export const customStyles3 = {
   overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.78)",
+    backgroundColor: "rgba(0, 0, 0, 0.90)",
   },
   content: {
     display: "flex",
