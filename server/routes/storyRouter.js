@@ -100,7 +100,7 @@ storyRouter.patch("/update/:id", tokenVerification, async (req, res) => {
     handleErrorResponse(res, error);
   }
 });
-storyRouter.get("/story-by-id/:id", async (req, res) => {
+storyRouter.get("/share-story/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const story = await Story.findById(id);
@@ -111,6 +111,44 @@ storyRouter.get("/story-by-id/:id", async (req, res) => {
     handleErrorResponse(res, error);
   }
 });
+storyRouter.get("/get-story/:id", tokenVerification, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const token = req.headers.token;
+    if (!token) {
+      return res.status(401).send("Token is missing");
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (!decoded || !decoded.userID) {
+      return res.status(401).send("Invalid token");
+    }
+
+    const user = await User.findById(decoded.userID);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    const story = await Story.findById(id);
+    if (!story) {
+      return res.status(404).send("Story not found");
+    }
+
+    const bookmarked = story.bookmarks.includes(user._id.toString());
+    const liked = story.likes.includes(user._id.toString());
+
+    const storyWithAccessData = {
+      ...story.toObject(),
+      bookmarked: bookmarked,
+      liked: liked,
+    };
+
+    res.status(200).json(storyWithAccessData);
+  } catch (error) {
+    handleErrorResponse(res, error);
+  }
+});
+
 storyRouter.put("/like/:id", tokenVerification, async (req, res) => {
   try {
     const storyId = req.params.id;
