@@ -111,12 +111,23 @@ storyRouter.get("/share-story/:id", async (req, res) => {
     handleErrorResponse(res, error);
   }
 });
-storyRouter.get("/get-story/:id", tokenVerification, async (req, res) => {
+storyRouter.get("/get-story/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const token = req.headers.token;
+
+    const story = await Story.findById(id);
+    if (!story) {
+      return res.status(404).send("Story not found");
+    }
+
     if (!token) {
-      return res.status(401).send("Token is missing");
+      const storyDataWithoutAccess = {
+        ...story.toObject(),
+        liked: false,
+        bookmarked: false,
+      };
+      return res.status(200).json(storyDataWithoutAccess);
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -127,11 +138,6 @@ storyRouter.get("/get-story/:id", tokenVerification, async (req, res) => {
     const user = await User.findById(decoded.userID);
     if (!user) {
       return res.status(404).send("User not found");
-    }
-
-    const story = await Story.findById(id);
-    if (!story) {
-      return res.status(404).send("Story not found");
     }
 
     const bookmarked = story.bookmarks.includes(user._id.toString());
