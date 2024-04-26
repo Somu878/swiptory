@@ -158,17 +158,21 @@ storyRouter.put("/like/:id", tokenVerification, async (req, res) => {
       return res.status(404).json({ message: "Story not found" });
     }
     if (story.likes.includes(userId)) {
-      return res
-        .status(400)
-        .json({ message: "You have already liked this story" });
+      const userIndex = story.likes.indexOf(userId);
+      story.likes.splice(userIndex, 1);
+      await story.save();
+
+      return res.json({ message: "Like removed successfully" });
+    } else {
+      story.likes.push(userId);
+      await story.save();
+      return res.json({ message: "Story liked successfully" });
     }
-    story.likes.push(userId);
-    await Story.findByIdAndUpdate(storyId, story);
-    res.json({ message: "Story liked successfully" });
   } catch (error) {
     handleErrorResponse(res, error);
   }
 });
+
 storyRouter.put("/bookmark/:id", tokenVerification, async (req, res) => {
   try {
     const storyId = req.params.id;
@@ -177,17 +181,29 @@ storyRouter.put("/bookmark/:id", tokenVerification, async (req, res) => {
     if (!story) {
       return res.status(404).json({ message: "Story not found" });
     }
-    if (story.bookmarks.includes(userId)) {
-      return res
-        .status(400)
-        .json({ message: "You have already bookmarked this story" });
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
-    story.bookmarks.push(userId);
-    await Story.findByIdAndUpdate(storyId, story);
-    await User.findByIdAndUpdate(userId, {
-      $push: { bookmarks: storyId },
-    });
-    res.json({ message: "Story bookmarked successfully" });
+    if (story.bookmarks.includes(userId)) {
+      const storyIndex = story.bookmarks.indexOf(userId);
+      story.bookmarks.splice(storyIndex, 1);
+      await story.save();
+
+      const userIndex = user.bookmarks.indexOf(storyId);
+      user.bookmarks.splice(userIndex, 1);
+      await user.save();
+
+      return res.json({ message: "Bookmark removed" });
+    } else {
+      story.bookmarks.push(userId);
+      await story.save();
+
+      user.bookmarks.push(storyId);
+      await user.save();
+
+      return res.json({ message: "Story bookmarked successfully" });
+    }
   } catch (error) {
     handleErrorResponse(res, error);
   }
