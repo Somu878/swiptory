@@ -59,7 +59,7 @@ function AddStory({ action, modalClose, storyId }) {
   const fetchStoryData = async () => {
     try {
       const res = await storyApi.getStory(storyId);
-      const fetchedSlides = res?.story?.slides || [];
+      const fetchedSlides = res?.slides || [];
       setSlidesArray(fetchedSlides);
     } catch (error) {
       console.log(error);

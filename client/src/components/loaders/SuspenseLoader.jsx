@@ -9,6 +9,7 @@ function SuspenseLoader() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        background: "black",
       }}
     >
       <HashLoader color="#FF7373" />

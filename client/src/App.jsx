@@ -4,6 +4,7 @@ import "./App.css";
 import SuspenseLoader from "./components/loaders/SuspenseLoader";
 const AppLayout = lazy(() => import("./layouts/Applayout"));
 const Home = lazy(() => import("./pages/Home"));
+const Bookmarks = lazy(() => import("./pages/bookmarks/Bookmarks"));
 function App() {
   return (
     <BrowserRouter>
@@ -17,6 +18,7 @@ function App() {
           path="/"
         >
           <Route index element={<Home />} />
+          <Route path="/bookmarks" element={<Bookmarks />} />
         </Route>
       </Routes>
     </BrowserRouter>

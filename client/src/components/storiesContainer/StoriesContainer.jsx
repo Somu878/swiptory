@@ -3,22 +3,11 @@ import styles from "./storiesContainer.module.css";
 import StoryCard from "../storyCard/StoryCard";
 import storyApi from "../../api/storiesApi";
 import { LoadingContext } from "../../layouts/Applayout";
-function StoriesContainer({ category }) {
+function StoriesContainer({ category, bookmarks }) {
   const [page, setpage] = useState(1);
   const { loggedIn, setloading } = useContext(LoadingContext);
   const [showMoreBtn, setshowMoreBtn] = useState(false);
   const [storyData, setstoryData] = useState([]);
-  //   const [myStories, setmyStories] = useState([]);
-  //   const fetchMyStories = async () => {
-  //     try {
-  //       const res = await storyApi.getMyStories();
-  //       setmyStories(res?.stories);
-  //     } catch (error) {
-  //       console.log(error);
-  //     } finally {
-  //       setloading(false);
-  //     }
-  //   };
   const fetchStories = async () => {
     try {
       let res;
