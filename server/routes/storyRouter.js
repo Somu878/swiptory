@@ -43,9 +43,13 @@ storyRouter.get("/story-by-category", async (req, res) => {
       const user = await User.findById(decoded.userID);
       storiesWithEditAccess = stories.map((story) => {
         const editable = story.ownedBy.toString() === user._id.toString();
+        const bookmarked = story.bookmarks.includes(user._id.toString());
+        const liked = story.likes.includes(user._id.toString());
         return {
           ...story.toObject(),
           editable: editable,
+          bookmarked: bookmarked,
+          liked: liked,
         };
       });
     }
@@ -150,7 +154,22 @@ storyRouter.put("/bookmark/:id", tokenVerification, async (req, res) => {
     handleErrorResponse(res, error);
   }
 });
-storyRouter.get("/my-story", tokenVerification, async (req, res) => {
+storyRouter.get("/my-bookmarks", tokenVerification, async (req, res) => {
+  try {
+    const user = await User.findById(req.userID);
+    const bookmarkIds = user.bookmarks;
+    const bookmarkedStories = await Promise.all(
+      bookmarkIds.map(async (id) => {
+        return await Story.findById(id);
+      })
+    );
+    res.status(200).json({ bookmarks: bookmarkedStories });
+  } catch (error) {
+    handleErrorResponse(res, error);
+  }
+});
+
+storyRouter.get("/my-stories", tokenVerification, async (req, res) => {
   try {
     const page = req.query.page || 1;
     const query = {
