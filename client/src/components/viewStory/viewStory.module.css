@@ -8,12 +8,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin: 3rem;
   width: 25vw;
   height: 80vh;
   background-size: cover;
   background-position: center;
   border-radius: 9px;
-  box-shadow: 0 4px 30px rgba(255, 255, 255, 0.4);
+  box-shadow: 0px 4px 20px 10px rgba(255, 255, 255, 0.4);
   padding: 7px;
 }
 .progressbarContainer {
@@ -33,11 +34,11 @@
 }
 .likeContainer {
   display: flex;
-  align-items: center; /* Align items vertically */
+  align-items: center;
 }
 
 .likeContainer > span {
-  margin-left: 5px; /* Add space between icon and count */
+  margin-left: 5px;
 }
 
 .shareIcon {
@@ -62,7 +63,7 @@
     margin-left: 75vw;
   }
   .likeContainer > span {
-    margin-left: 5px; /* Add space between icon and count */
+    margin-left: 5px;
     margin-top: 6.5px;
   }
   .arrow1,

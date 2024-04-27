@@ -18,7 +18,7 @@ function StoriesContainer({ category, notCategory }) {
       } else {
         res = await storyApi.getStoriesByCategory(category, page);
       }
-      setstoryData(res?.bookmarks);
+      setstoryData(res?.stories);
 
       if (res?.remainingStories > 0) {
         setshowMoreBtn(true);

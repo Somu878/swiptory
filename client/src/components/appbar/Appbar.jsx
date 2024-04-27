@@ -35,11 +35,14 @@ function Appbar() {
       <div className={styles.title} onClick={() => navigate("/")}>
         SwipTory
       </div>
+
       <div className={styles.btnGroup}>
         {loggedIn ? (
           <>
             <button
-              className={styles.bookmarkBtn}
+              className={`${styles.bookmarkBtn} ${
+                location.pathname === "/my-bookmarks" ? styles.active : ""
+              }`}
               onClick={() => navigate("/my-bookmarks")}
             >
               <IoMdBookmark
