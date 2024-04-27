@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./appbar.module.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { LoadingContext } from "../../layouts/Applayout";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdBookmark } from "react-icons/io";
@@ -38,7 +38,10 @@ function Appbar() {
       <div className={styles.btnGroup}>
         {loggedIn ? (
           <>
-            <button className={styles.bookmarkBtn}>
+            <button
+              className={styles.bookmarkBtn}
+              onClick={() => navigate("/my-bookmarks")}
+            >
               <IoMdBookmark
                 size={"18px"}
                 style={{ marginRight: "-4px", marginBottom: "-3px" }}
@@ -128,7 +131,15 @@ function Appbar() {
                     onClick={() => setmobileMenu(false)}
                   />
                 </div>
-                <button className={styles.addStoryBtn}>My Stories</button>
+                <button
+                  className={styles.addStoryBtn}
+                  onClick={() => {
+                    navigate("/my-stories");
+                    setmobileMenu(false);
+                  }}
+                >
+                  My Stories
+                </button>
                 <button
                   className={styles.addStoryBtn}
                   onClick={() => {
@@ -138,13 +149,20 @@ function Appbar() {
                 >
                   Add Story
                 </button>
-                <button className={styles.bookmarkBtn}>
+                <button
+                  onClick={() => {
+                    navigate("/my-bookmarks");
+                    setmobileMenu(false);
+                  }}
+                  className={styles.bookmarkBtn}
+                >
                   <IoMdBookmark
                     size={"18px"}
                     style={{ marginRight: "-4px", marginBottom: "-3px" }}
                   />{" "}
                   Bookmarks
                 </button>
+
                 <button onClick={handleLogout} className={styles.logoutBtn}>
                   Log out
                 </button>

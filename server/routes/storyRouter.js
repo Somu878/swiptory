@@ -223,7 +223,7 @@ storyRouter.get("/my-bookmarks", tokenVerification, async (req, res) => {
         return await Story.findById(id);
       })
     );
-    res.status(200).json({ bookmarks: bookmarkedStories });
+    res.status(200).json({ stories: bookmarkedStories });
   } catch (error) {
     handleErrorResponse(res, error);
   }

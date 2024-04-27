@@ -129,6 +129,8 @@ function ViewStory({ storyId, modalClose }) {
             </div>
           </div>
         </div>
+        <div className={styles.arrowLeft} onClick={handlePreviousSlide}></div>
+        <div className={styles.arrowRight} onClick={handleNextSlide}></div>
       </div>
       <FaAngleRight
         size={90}

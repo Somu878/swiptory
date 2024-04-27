@@ -3,7 +3,7 @@ import styles from "./storiesContainer.module.css";
 import StoryCard from "../storyCard/StoryCard";
 import storyApi from "../../api/storiesApi";
 import { LoadingContext } from "../../layouts/Applayout";
-function StoriesContainer({ category, bookmarks }) {
+function StoriesContainer({ category, notCategory }) {
   const [page, setpage] = useState(1);
   const { loggedIn, setloading } = useContext(LoadingContext);
   const [showMoreBtn, setshowMoreBtn] = useState(false);
@@ -13,11 +13,12 @@ function StoriesContainer({ category, bookmarks }) {
       let res;
       if (category === "My Stories") {
         res = await storyApi.getMyStories(page);
+      } else if (category == "My Bookmarks") {
+        res = await storyApi.getMyBookmarks();
       } else {
         res = await storyApi.getStoriesByCategory(category, page);
       }
-
-      setstoryData(res?.stories);
+      setstoryData(res?.bookmarks);
 
       if (res?.remainingStories > 0) {
         setshowMoreBtn(true);
@@ -36,7 +37,7 @@ function StoriesContainer({ category, bookmarks }) {
   }, [category, loggedIn, page]);
   return (
     <div className={styles.storiesContainer}>
-      {category == "My Stories" ? (
+      {notCategory ? (
         <div className={styles.title}>{category}</div>
       ) : (
         <div className={styles.title}>Top Stories about {category}</div>

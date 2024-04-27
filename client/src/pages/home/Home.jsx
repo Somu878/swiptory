@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
 import styles from "./home.module.css";
-import { categories } from "../utils/customs";
-import CategoryCard from "../components/categoryCard/CategoryCard";
-import StoriesContainer from "../components/storiesContainer/StoriesContainer";
+import { categories } from "../../utils/customs";
+import CategoryCard from "../../components/categoryCard/CategoryCard";
+import StoriesContainer from "../../components/storiesContainer/StoriesContainer";
 import { Toaster } from "react-hot-toast";
-import { LoadingContext } from "../layouts/Applayout";
+import { LoadingContext } from "../../layouts/Applayout";
 function Home() {
   const { setloading, loggedIn } = useContext(LoadingContext);
   const [activeCategory, setActiveCategory] = useState("All");
@@ -35,7 +35,7 @@ function Home() {
           <>
             {loggedIn && (
               <div className={styles.myStoriesContainer}>
-                <StoriesContainer category={"My Stories"} />
+                <StoriesContainer category={"My Stories"} notCategory={true} />
               </div>
             )}
             {categories.slice(1).map((category, index) => (
