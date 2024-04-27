@@ -1,7 +1,8 @@
-/* ProgressBar.module.css */
 .progressBar {
   background: grey;
   height: 5px;
+  width: 100%;
+  margin: 5px;
 }
 
 .progress {

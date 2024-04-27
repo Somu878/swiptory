@@ -65,6 +65,13 @@ function ViewStory({ storyId, modalClose }) {
     }));
     debouncedBookmark();
   };
+  const handleProgressComplete = () => {
+    setCurrentSlideIndex((prev) => Math.min(slides.length - 1, prev + 1));
+    // setCurrentSlideIndex((prev) => {
+    //   const nextIndex = slides.length - 1 ? prev : prev + 1;
+    //   return nextIndex;
+    // });
+  };
 
   return (
     <div className={styles.ViewCardContainer}>
@@ -82,7 +89,12 @@ function ViewStory({ storyId, modalClose }) {
         <div>
           <div className={styles.progressbarContainer}>
             {slides.map((slide, index) => (
-              <ProgressBar key={index} isActive={index === currentSlideIndex} />
+              <ProgressBar
+                key={index}
+                isActive={index === currentSlideIndex}
+                isCompleted={index < currentSlideIndex}
+                onComplete={handleProgressComplete}
+              />
             ))}
           </div>
           <div className={styles.iconsGroup}>

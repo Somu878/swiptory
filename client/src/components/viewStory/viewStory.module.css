@@ -15,7 +15,10 @@
   box-shadow: 0 4px 30px rgba(255, 255, 255, 0.4);
   padding: 7px;
 }
-
+.progressbarContainer {
+  display: flex;
+  justify-content: space-between;
+}
 .description {
   font-size: 0.8rem;
   overflow: hidden;
