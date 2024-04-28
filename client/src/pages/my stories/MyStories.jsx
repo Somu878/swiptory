@@ -4,7 +4,7 @@ import StoriesContainer from "../../components/storiesContainer/StoriesContainer
 function MyStories() {
   return (
     <div style={{ height: "100vh", overflowY: "auto" }}>
-      <StoriesContainer category={"My Stories"} />
+      <StoriesContainer category={"My Stories"} notCategory={true} />
     </div>
   );
 }
