@@ -18,6 +18,7 @@
   padding: 7px;
 }
 .progressbarContainer {
+  margin-top: 7px;
   display: flex;
   justify-content: space-between;
 }
