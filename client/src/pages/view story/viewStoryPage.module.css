@@ -1,4 +1,7 @@
 .ViewStoryPageContainer {
+  padding: 0;
+  margin-top: -48px;
+  width: 100vw;
   min-height: 100vh;
   background-color: rgb(29, 29, 29);
   display: flex;

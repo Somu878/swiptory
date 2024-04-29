@@ -31,7 +31,12 @@ function Appbar() {
     setmobileMenu(false);
   };
   return (
-    <div className={styles.appbar}>
+    <div
+      className={styles.appbar}
+      style={{
+        display: location.pathname.startsWith("/View-Story/") ? "none" : "",
+      }}
+    >
       <div className={styles.title} onClick={() => navigate("/")}>
         SwipTory
       </div>
