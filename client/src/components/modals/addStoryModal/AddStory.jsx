@@ -214,7 +214,7 @@ function AddStory({ action, modalClose, storyId }) {
               value={slidesArray[currentSlideIndex]?.category || ""}
               onChange={handleInputChange}
             >
-              <option value="" disabled selected>
+              <option value="" defaultValue={true}>
                 Select Category
               </option>
               {categories.slice(1).map((item) => (

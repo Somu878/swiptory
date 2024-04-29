@@ -5,7 +5,7 @@ import storyApi from "../../api/storiesApi";
 import { LoadingContext } from "../../layouts/Applayout";
 function StoriesContainer({ category, notCategory }) {
   const [page, setpage] = useState(1);
-  const { loggedIn, setloading } = useContext(LoadingContext);
+  const { loggedIn, setloading, loading } = useContext(LoadingContext);
   const [showMoreBtn, setshowMoreBtn] = useState(false);
   const [storyData, setstoryData] = useState([]);
   const fetchStories = async () => {
@@ -34,7 +34,7 @@ function StoriesContainer({ category, notCategory }) {
 
   useEffect(() => {
     fetchStories();
-  }, [category, loggedIn, page]);
+  }, [category, loggedIn, page, loading]);
   return (
     <div className={styles.storiesContainer}>
       {notCategory ? (

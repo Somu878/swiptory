@@ -166,7 +166,7 @@ function ViewStory({ storyId, modalClose }) {
         ariaHideApp={false}
         onRequestClose={() => setauthModal(false)}
       >
-        <AuthModal action={"Login"} modalClose={() => setauthModal(false)} />
+        <AuthModal action={"Login"} closeModal={() => setauthModal(false)} />
       </Modal>
     </>
   );
